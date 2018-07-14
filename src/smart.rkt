@@ -14,6 +14,8 @@
     (def outLength 128)
     (def codeP_off 160)
 
+    (def output_off (+ codeP_off (+ (mload codeLength) (mload tapeLength))))
+
     ;; ===
     ;; Constructor
     ;; ===
@@ -95,14 +97,11 @@
     (and #xff (mload (mload tapePointer)))
     (mload outLength)
     (mstore outLength (add 1 (dup1)))
-    (mstore8 (add (+ codeP_off (+ (mload codeLength) (mload tapeLength)))))
+    (mstore8 (add output_off))
     (jump mainLoop:start)
 
-
-
-
-
-    ;; (jumpi mainLoop:start ) if end of file
+    (dest label:deploy)
+    (return output_off (mload outLength))
     ))
 
 (evm-assemble prog)
