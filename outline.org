@@ -1,0 +1,13 @@
+* EVM
+
+** mem
+- code pointer
+- tape pointer
+- tape
+- output length
+- output
+
+** stack
+1) loop locations (bf code)
+2) previous char (repeatable chars)
+   - number of prev chars (repetitions)
