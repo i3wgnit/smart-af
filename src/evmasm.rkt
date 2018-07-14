@@ -411,7 +411,7 @@
                    [#x20 (sha3)] [#x20 (keccak256)]
                    [#x30 (address balance origin caller callvalue calldataload calldatasize calldatacopy codesize codecopy gasprice extcodesize extcodecopy returndatasize returndatacopy)]
                    [#x40 (blockhash coinbase timestamp number difficulty gaslimit)]
-                   [#x50 (pop mload mstore mstores sload sstore jump jumpi pc msize gas jumpdest)]
+                   [#x50 (pop mload mstore mstore8 sload sstore jump jumpi pc msize gas jumpdest)]
                    [#x60 ,(map (compose ((curry symb-append) 'push) number->symbol)
                                (build-list 32 add1))]
                    [#x80 ,(map (compose ((curry symb-append) 'dup) number->symbol)
@@ -419,7 +419,7 @@
                    [#x90 ,(map (compose ((curry symb-append) 'swap) number->symbol)
                                (build-list 16 add1))]
                    [#xa0 ,(map (compose ((curry symb-append) 'log) number->symbol)
-                               (build-list 4 add1))]
+                               (build-list 4 identity))]
                    [#xf0 (create call callcode return delegatecall)]
                    [#xfa (staticcall)]
                    [#xfd (revert invalid selfdestruct)]
