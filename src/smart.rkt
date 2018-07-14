@@ -12,7 +12,8 @@
     (def tapePointer 96)
 
     (def outLength 128)
-    (def codeP_off 160)
+    (def codeStart 160)
+    (def codeP_off (- codeStart 31))
 
     (def output_off (+ codeP_off (+ (mload codeLength) (mload tapeLength))))
 
@@ -24,6 +25,14 @@
     ;; Initialization
     ;; ===
 
+    ;; Get the size of the current bytecode
+    (dataSize bytecode)
+    (codecopy tapeLength (dataSize bytecode) 32) ;; Tape length
+    (codecopy codeLength (+ 64 (dataSize bytecode)) 32) ;; String length
+    (codecopy codeStart (+ 96 (dataSize bytecode)) (mload codeLength))
+
+    (mstore tapePointer (+ codeP_off (mload codeLength)))
+
     ;; ===
     ;; Main loop
     ;; ===
@@ -33,6 +42,7 @@
     ;; Check if character is valid
     ;; ===
     (mload codePointer)
+    (jumpi label:deploy (eq (dup2) (mload codeLength)))
     (mstore codePointer (add 1 (dup1)))
     (and #xff (mload (add codeP_off)))
 
@@ -53,7 +63,7 @@
     ;; ===
 
     (dest label:+)
-    (pop)
+    (pop) ;; Pop original char off the stack
     (mload tapePointer)
     (add (and #xff (mload (dup2))) 1)
     (mstore8 (swap1))
@@ -85,12 +95,12 @@
 
     (dest label:B)
     (pop)
-    (jumpi B:loop (mload tapePointer))
+    (jumpi B:loop (and #xff (mload (mload tapePointer))))
     (pop)
     (jump mainLoop:start)
 
     (dest B:loop)
-    (mstore codePointer)
+    (mstore codePointer (dup1))
     (jump mainLoop:start)
 
     (dest label:.)
