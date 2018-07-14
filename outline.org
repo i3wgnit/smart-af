@@ -3,11 +3,18 @@
 ** mem
 - code pointer
 - tape pointer
-- tape
 - output length
+  bytecode
+- tape
 - output
 
 ** stack
 1) loop locations (bf code)
 2) previous char (repeatable chars)
    - number of prev chars (repetitions)
+
+0:(loc)
+
+
+loc:size
+blabla[size]
