@@ -1,10 +1,12 @@
 * EVM
 
 ** mem
-- code pointer
-- tape pointer
-- output length
-  bytecode
+- code length   [32]
+- code pointer  [32]
+- tape length   [32]
+- tape pointer  [32]
+- output length [32]
+- bytecode
 - tape
 - output
 
@@ -13,8 +15,26 @@
 2) previous char (repeatable chars)
    - number of prev chars (repetitions)
 
-0:(loc)
+* High level
+1) init
+   - set up pointers
+2) main loop
+   1) check if character is valid
+   2) jump to code accordingly
+      - + -
+      - [ ]
+      - > <
+      - .
+   3) deploy the output
+
+* example
+++[>++[>+<-]<-]>>.
+4
 
 
-loc:size
-blabla[size]
+65
+
+(0)  number    [32]
+(32) 64        [32]
+(64) stringlen [32]
+     string
